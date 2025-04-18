@@ -17,11 +17,12 @@ public class CarController {
     }
 
     @GetMapping("/cars")
-    public String showCars(@RequestParam(value = "count",required = false) Integer count, Model model) {
-        if (count == null) {
-            count = 5;
-        }
-        model.addAttribute("cars", carService.getCars(count));
+    public String showCars(@RequestParam(value = "count", required = false) Integer count, Model model) {
+        model.addAttribute("cars", (count != null && count > 0 && count < 5)
+                ? carService.getCars(count)
+                : carService.getAllCars());
         return "cars";
     }
 }
+
+
